@@ -1,0 +1,15 @@
+{
+  "name": "david",
+  "email": "david@david.com",
+  "delivery_method": "delivered",
+  "notes": "nota",
+  "regular_client": false,
+  "coupon_code": "",
+  "coldCuts": 1,
+  "pepperoni": 1,
+  "fetaCheese": 0,
+  "mozzarella": 0,
+  "swissCheese": 0,
+  "spices": 0,
+  "vegetables": 0
+}
