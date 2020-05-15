@@ -1,0 +1,118 @@
+version: 2.1
+orbs:
+  node: circleci/node@2.0.3
+  aws-cli: circleci/aws-cli@1.0.0
+
+terraform: &terraform
+  working_directory: ~/pizza-aplication/terraform
+  docker:
+    - image: hashicorp/terraform:0.12.24
+  environment:
+    TF_IN_AUTOMATION: true
+    TF_VAR_AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+    TF_VAR_AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+    TF_VAR_AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+
+maven: &maven
+  docker:
+    - image: maven:3.6.3-jdk-11
+
+jobs:
+  build:
+    <<: *maven
+    steps:
+        - checkout
+        - run:
+            name: Compile
+            command: mvn compile
+        - run:
+            name: Package
+            command: mvn package
+        - persist_to_workspace:
+            root: ~/pizza-aplication
+            paths: .
+  init:
+    <<: *terraform
+    steps:
+      - run:
+          name: init
+          command: terraform init
+      - persist_to_workspace:
+          root: ~/pizza-aplication
+          paths: .
+
+  plan:
+    <<: *terraform
+    steps:
+      - attach_workspace:
+          at: ~/pizza-aplication
+      - run:
+          name: plan
+          command: terraform plan
+      - store_artifacts:
+          path: ~/pizza-aplication/terraform/tfplan
+          destination: tfplan
+      - persist_to_workspace:
+          root: ~/pizza-aplication
+          paths: .
+
+  apply:
+    <<: *terraform
+    steps:
+      - attach_workspace:
+          at: ~/pizza-aplication
+      - run:
+          name: apply
+          command: terraform apply -auto-approve
+      - run:
+          name: show
+          command: terraform show -no-color > tfresult
+      - persist_to_workspace:
+          root: ~/pizza-aplication
+          paths: .
+
+  deploy:
+    executor: aws-cli/default
+    steps:
+      - attach_workspace:
+          at: ~/pizza-aplication
+      - aws-cli/install
+      - aws-cli/setup:
+            profile-name: personal
+      - run:
+          name: Deploy to aws
+          command: aws s3 sync . s3://mybucket
+
+  destroy:
+    <<: *terraform
+    steps:
+      - attach_workspace:
+          at: ~/pizza-aplication
+      - run:
+          name: destroy app
+          command: terraform destroy -auto-approve
+
+workflows:
+  version: 2
+  build_front:
+    jobs:
+      - build
+      - init:
+         requires:
+            - build
+      - plan:
+          requires:
+            - init
+      - apply:
+          requires:
+            - plan
+      - deploy:
+          requires:
+            - apply
+      - destroy:
+          requires:
+            - plan
+          filters:
+            branches:
+              only:
+                - destroy

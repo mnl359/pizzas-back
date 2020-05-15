@@ -1,0 +1,38 @@
+[
+{
+  "name": "${cluster-name}",
+  "image": "${docker-img}",
+  "cpu": 128,
+  "memoryReservation": 128,
+  "portMappings": [
+    {
+      "containerPort": 8080,
+      "protocol": "tcp",
+      "hostPort": 8080
+    }
+  ],
+  "environment": [
+    {
+      "name": "MYSQL_DB_DATABASE",
+      "value": "${database}"
+    },
+    {
+      "name": "MYSQL_DB_HOST",
+      "value": "${db-host}"
+    },
+    {
+      "name": "MYSQL_DB_PASSWORD",
+      "value": "${db-password}"
+    },
+    {
+      "name": "MYSQL_DB_PORT",
+      "value": "${db-port}"
+    },
+    {
+      "name": "MYSQL_DB_USER",
+      "value": "${db-user }"
+    }
+  ],
+  "essential": true
+}
+]
