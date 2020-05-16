@@ -12,25 +12,37 @@ terraform: &terraform
     TF_VAR_AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
     TF_VAR_AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
     TF_VAR_AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+    TF_MYSQL_DB_HOST: $MYSQL_DB_HOST
+    TF_MYSQL_DB_PORT: $MYSQL_DB_PORT
+    TF_MYSQL_DB_DATABASE: $MYSQL_DB_DATABASE
+    TF_MYSQL_DB_USER: $MYSQL_DB_USER
+    TF_MYSQL_DB_PASSWORD: $MYSQL_DB_PASSWORD
 
 maven: &maven
   docker:
     - image: maven:3.6.3-jdk-11
+    - image: circleci/mysql:8.0.4
+  environment:
+    TF_MYSQL_DB_HOST: $MYSQL_DB_HOST
+    TF_MYSQL_DB_PORT: $MYSQL_DB_PORT
+    TF_MYSQL_DB_DATABASE: $MYSQL_DB_DATABASE
+    TF_MYSQL_DB_USER: $MYSQL_DB_USER
+    TF_MYSQL_DB_PASSWORD: $MYSQL_DB_PASSWORD
 
 jobs:
   build:
     <<: *maven
     steps:
-        - checkout
-        - run:
-            name: Compile
-            command: mvn compile
-        - run:
-            name: Package
-            command: mvn package
-        - persist_to_workspace:
-            root: ~/pizza-aplication
-            paths: .
+      - checkout
+      - run:
+          name: Compile
+          command: mvn compile
+      - run:
+          name: Package
+          command: mvn package
+      - persist_to_workspace:
+          root: ~/pizza-aplication
+          paths: .
   init:
     <<: *terraform
     steps:
@@ -97,22 +109,22 @@ workflows:
   build_front:
     jobs:
       - build
-      - init:
-         requires:
-            - build
-      - plan:
-          requires:
-            - init
-      - apply:
-          requires:
-            - plan
-      - deploy:
-          requires:
-            - apply
-      - destroy:
-          requires:
-            - plan
-          filters:
-            branches:
-              only:
-                - destroy
+      #- init:
+      #   requires:
+      #      - build
+      #- plan:
+      #    requires:
+      #      - init
+      #- apply:
+      #    requires:
+      #      - plan
+      #- deploy:
+      #    requires:
+      #      - apply
+      #- destroy:
+      #    requires:
+      #      - plan
+      #    filters:
+      #      branches:
+      #        only:
+      #          - destroy
