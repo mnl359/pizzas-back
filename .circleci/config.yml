@@ -20,12 +20,12 @@ terraform: &terraform
 
 maven: &maven
   docker:
-    - image: maven:3.6.3-jdk-11
     - image: circleci/mysql:8.0.4
+    - image: maven:3.6.3-jdk-11
   environment:
-    TF_MYSQL_DB_HOST: $MYSQL_DB_HOST
-    TF_MYSQL_DB_PORT: $MYSQL_DB_PORT
-    TF_MYSQL_DB_DATABASE: $MYSQL_DB_DATABASE
+    TF_MYSQL_DB_HOST: localhost
+    TF_MYSQL_DB_PORT: 3306
+    TF_MYSQL_DB_DATABASE: pizzasdb
     TF_MYSQL_DB_USER: $MYSQL_DB_USER
     TF_MYSQL_DB_PASSWORD: $MYSQL_DB_PASSWORD
 
