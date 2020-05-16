@@ -36,7 +36,9 @@ jobs:
       - checkout
       - run:
           name: Compile
-          command: mvn compile
+          command: |
+            mvn compile
+            sleep(10)
       - run:
           name: Package
           command: mvn package
