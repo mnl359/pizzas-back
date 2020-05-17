@@ -36,7 +36,7 @@ jobs:
       - run:
           name: Compile
           command: |
-            sleep 30
+            sleep 40
             mvn compile
       - run:
           name: Package
