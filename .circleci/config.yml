@@ -34,6 +34,12 @@ jobs:
   build:
     docker:
       - image: maven:3.6-openjdk-8
+        environment:
+          MYSQL_ROOT_PASSWORD: passw0rd
+          MYSQL_DATABASE: pizzasdb
+          MYSQL_USER: root
+          MYSQL_DB_HOST: localhost
+          MYSQL_DB_PORT: 3306
       - image: circleci/mysql:8.0.4
         environment:
           MYSQL_ROOT_PASSWORD: passw0rd
