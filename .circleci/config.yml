@@ -53,16 +53,18 @@ jobs:
           name: Waiting for MySQL container to be ready
           command: |
             echo Waiting for MySQL
-            sleep 30
-      - run:
-          name: Compile
-          command: mvn compile
-      - run:
-          name: Package
-          command: mvn package
-      - persist_to_workspace:
-          root: ~/pizza-aplication
-          paths: .
+            #sleep 10
+            apt install mysql-client
+            mysql -u root -ppassw0rd pizzasdb
+      #- run:
+      #    name: Compile
+      #    command: mvn compile
+      #- run:
+      #    name: Package
+      #    command: mvn package
+      #- persist_to_workspace:
+      #    root: ~/pizza-aplication
+      #    paths: .
   init:
     <<: *terraform
     steps:
