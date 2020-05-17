@@ -33,29 +33,44 @@ maven: &maven
 jobs:
   build:
     docker:
-      - image: maven:3.6.3-jdk-11
-        environment:
-          MYSQL_DATABASE: pizzasdb
-          MYSQL_USER: $MYSQL_DB_USER
-          MYSQL_PASSWORD: $MYSQL_DB_PASSWORD
-          MYSQL_ROOT_PASSWORD: $MYSQL_DB_PASSWORD
-          MYSQL_DB_HOST: localhost
-          MYSQL_DB_PORT: 3306
+      - image: maven:3.6-openjdk-8
       - image: circleci/mysql:8.0.4
         environment:
+          MYSQL_ROOT_PASSWORD: passw0rd
           MYSQL_DATABASE: pizzasdb
-          MYSQL_USER: $MYSQL_DB_USER
-          MYSQL_PASSWORD: $MYSQL_DB_PASSWORD
-          MYSQL_ROOT_PASSWORD: $MYSQL_DB_PASSWORD
+          MYSQL_USER: root
     steps:
       - checkout
       - run:
-          name: Waiting for MySQL container to be ready
-          command: |
-            echo Waiting for MySQL
-            #sleep 10
-            apt install mysql-client
-            mysql -u root -ppassw0rd pizzasdb
+          name: sleep
+          command: sleep 30
+      - run:
+          name: Build jar and test
+          command: mvn package
+    #docker:
+    #  - image: maven:3.6.3-jdk-11
+    #    environment:
+    #      MYSQL_DATABASE: pizzasdb
+    #      MYSQL_USER: $MYSQL_DB_USER
+    #      MYSQL_PASSWORD: $MYSQL_DB_PASSWORD
+    #      MYSQL_ROOT_PASSWORD: $MYSQL_DB_PASSWORD
+    #      MYSQL_DB_HOST: localhost
+    #      MYSQL_DB_PORT: 3306
+    #  - image: circleci/mysql:8.0.4
+    #    environment:
+    #      MYSQL_DATABASE: pizzasdb
+    #      MYSQL_USER: $MYSQL_DB_USER
+    #      MYSQL_PASSWORD: $MYSQL_DB_PASSWORD
+    #      MYSQL_ROOT_PASSWORD: $MYSQL_DB_PASSWORD
+    #steps:
+    #  - checkout
+    #  - run:
+    #      name: Waiting for MySQL container to be ready
+    #      command: |
+    #        echo Waiting for MySQL
+    #        #sleep 10
+    #        apt install mysql-client
+    #        mysql -u root -ppassw0rd pizzasdb
       #- run:
       #    name: Compile
       #    command: mvn compile
