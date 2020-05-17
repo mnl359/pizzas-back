@@ -18,18 +18,6 @@ terraform: &terraform
     TF_MYSQL_DB_USER: $MYSQL_DB_USER
     TF_MYSQL_DB_PASSWORD: $MYSQL_DB_PASSWORD
 
-maven: &maven
-  docker:
-    - image: maven:3.6.3-jdk-11
-    - image: circleci/mysql:8.0.4
-  environment:
-    MYSQL_DATABASE: pizzasdb
-    MYSQL_USER: $MYSQL_DB_USER
-    MYSQL_PASSWORD: $MYSQL_DB_PASSWORD
-    MYSQL_ROOT_PASSWORD: $MYSQL_DB_PASSWORD
-    MYSQL_DB_HOST: localhost
-    MYSQL_DB_PORT: 3306
-
 jobs:
   build:
     docker:
@@ -47,6 +35,7 @@ jobs:
           MYSQL_USER: $MYSQL_DB_USER
           MYSQL_PASSWORD: $MYSQL_DB_PASSWORD
           MYSQL_ROOT_PASSWORD: $MYSQL_DB_PASSWORD
+    working_directory: ~/pizza-aplication
     steps:
       - checkout
       - run:
