@@ -35,11 +35,8 @@ jobs:
       - run:
           name: Waiting for MySQL container to be ready
           command: |
-            for i in `seq 1 60`;
-            do
-              echo -en "\rWaiting for MySQL $i"
-              sleep 1
-            done
+            echo Waiting for MySQL
+            sleep 2m
       - run:
           name: Compile
           command: mvn compile
