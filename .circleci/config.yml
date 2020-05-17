@@ -22,11 +22,10 @@ maven: &maven
   docker:
     - image: maven:3.6.3-jdk-11
     - image: circleci/mysql:8.0.4
-  environment:
-    TF_MYSQL_DB_PORT: 3306
-    TF_MYSQL_DB_DATABASE: pizzasdb
-    TF_MYSQL_DB_USER: $MYSQL_DB_USER
-    TF_MYSQL_DB_PASSWORD: $MYSQL_DB_PASSWORD
+      environment:
+        MYSQL_DATABASE: pizzasdb
+        MYSQL_USER: $MYSQL_DB_USER
+        MYSQL_PASSWORD: $MYSQL_DB_PASSWORD
 
 jobs:
   build:
@@ -34,10 +33,18 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Compile
+          name: Waiting for MySQL container to be ready
           command: |
-            sleep 40
-            mvn compile
+            for i in `seq 1 10`;
+            do
+              nc -z 127.0.0.1 3306 && echo Success && exit 0
+              echo -n .
+              sleep 1
+            done
+            echo Failed waiting for MySQL && exit 1
+      - run:
+          name: Compile
+          command: mvn compile
       - run:
           name: Package
           command: mvn package
