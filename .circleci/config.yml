@@ -37,10 +37,9 @@ jobs:
           command: |
             for i in `seq 1 10`;
             do
-              echo Waiting for MySQL $i
+              echo -en "\rWaiting for MySQL $i"
               sleep 1
             done
-            echo Failed waiting for MySQL && exit 1
       - run:
           name: Compile
           command: mvn compile
