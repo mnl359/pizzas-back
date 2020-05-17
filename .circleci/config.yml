@@ -35,6 +35,7 @@ jobs:
       - run:
           name: Waiting for MySQL container to be ready
           command: |
+            apt install -y nc
             for i in `seq 1 10`;
             do
               nc -z 127.0.0.1 3306 && echo Success && exit 0
