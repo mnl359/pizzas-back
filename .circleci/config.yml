@@ -34,9 +34,9 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Compile the project
+          name: Compile
           command: |
-            sleep 20
+            sleep 30
             mvn compile
       - run:
           name: Package
