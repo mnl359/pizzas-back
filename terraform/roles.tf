@@ -27,7 +27,7 @@ resource "aws_iam_role_policy_attachment" "ecs-instance-role-attachmentECS" {
 resource "aws_iam_instance_profile" "ecs-instance-profile" {
     name = "ecs-instance-profile"
     path = "/"
-    role = "ecsInstanceRole"
+    role = "ecs-instance-role"
 }
 
 ## Role for ECS

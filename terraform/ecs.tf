@@ -45,5 +45,6 @@ resource "aws_ecs_service" "backend-pizza-service" {
     	target_group_arn  = aws_alb_target_group.ecs-target_group.arn
     	container_port    = 8080
     	container_name    = var.ecs-service-name
-	}
+	  }
+    depends_on = [aws_iam_role.ecs-service-role]
 }

@@ -1,7 +1,7 @@
 variable "profile" {
   description = "Profile for Terraform"
   type        = string
-  default     = "default"
+  default     = "personal"
 }
 
 variable "aws_region" {
