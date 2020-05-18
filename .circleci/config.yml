@@ -49,6 +49,7 @@ jobs:
           paths: .
   build:
     executor: docker/docker
+    working_directory: ~/pizza-aplication
     steps:
       - attach_workspace:
           at: ~/pizza-aplication
@@ -58,6 +59,7 @@ jobs:
       - docker/build:
           image: mcarras1/pizza-backend
           tag: "latest"
+          path: ~/pizza-application
       - docker/push:
           image: mcarras1/pizza-backend
           tag: "latest"
