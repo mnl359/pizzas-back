@@ -13,7 +13,7 @@
   ],
   "environment": [
     {
-      "name": "MYSQL_DB_DATABASE",
+      "name": "MYSQL_DATABASE",
       "value": "${database}"
     },
     {
@@ -21,7 +21,7 @@
       "value": "${db-host}"
     },
     {
-      "name": "MYSQL_DB_PASSWORD",
+      "name": "MYSQL_PASSWORD",
       "value": "${db-password}"
     },
     {
@@ -29,7 +29,7 @@
       "value": "${db-port}"
     },
     {
-      "name": "MYSQL_DB_USER",
+      "name": "MYSQL_USER",
       "value": "${db-user }"
     }
   ],
