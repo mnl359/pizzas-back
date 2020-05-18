@@ -145,6 +145,10 @@ workflows:
       - apply:
           requires:
             - plan
+          filters:
+            branches:
+              only:
+                - master
       #- deploy:
       #    requires:
       #      - apply
