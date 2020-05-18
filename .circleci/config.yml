@@ -35,7 +35,6 @@ jobs:
           MYSQL_USER: $MYSQL_DB_USER
           MYSQL_PASSWORD: $MYSQL_DB_PASSWORD
           MYSQL_ROOT_PASSWORD: $MYSQL_DB_PASSWORD
-    working_directory: ~/pizza-aplication
     steps:
       - checkout
       - run:
@@ -45,21 +44,19 @@ jobs:
           name: Package
           command: mvn package
       - persist_to_workspace:
-          root: ~/pizza-aplication
+          root: ~/project
           paths: .
   build:
     executor: docker/docker
-    working_directory: ~/pizza-aplication
     steps:
       - attach_workspace:
-          at: ~/pizza-aplication
+          at: ~/project
       - setup_remote_docker
       - docker/check
       - run: ls -la
       - docker/build:
           image: mcarras1/pizza-backend
           tag: "latest"
-          path: ~/pizza-application
       - docker/push:
           image: mcarras1/pizza-backend
           tag: "latest"
