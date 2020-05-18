@@ -51,10 +51,10 @@ jobs:
     executor: docker/docker
     working_directory: ~/pizza-application
     steps:
-      - attach_workspace:
-          at: ~/pizza-aplication
       - setup_remote_docker
       - docker/check
+      - attach_workspace:
+          at: ~/pizza-aplication
       - run: ls -la
       - docker/build:
           image: mcarras1/pizza-backend
