@@ -53,6 +53,7 @@ jobs:
     steps:
       - attach_workspace:
         at: ~/pizza-aplication
+      - setup_remote_docker
       - docker/check
       - docker/build:
           image: mcarras1/pizza-backend
