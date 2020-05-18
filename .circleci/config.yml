@@ -70,22 +70,22 @@ jobs:
     <<: *terraform
     steps:
       - attach_workspace:
-          at: ~/pizza-aplication
+          at: ~/project
       - run:
           name: plan
           command: terraform plan
       - store_artifacts:
-          path: ~/pizza-aplication/terraform/tfplan
+          path: ~/project/terraform/tfplan
           destination: tfplan
       - persist_to_workspace:
-          root: ~/pizza-aplication
+          root: ~/project
           paths: .
 
   apply:
     <<: *terraform
     steps:
       - attach_workspace:
-          at: ~/pizza-aplication
+          at: ~/project
       - run:
           name: apply
           command: terraform apply -auto-approve
@@ -93,7 +93,7 @@ jobs:
           name: show
           command: terraform show -no-color > tfresult
       - persist_to_workspace:
-          root: ~/pizza-aplication
+          root: ~/project
           paths: .
 
   deploy:
