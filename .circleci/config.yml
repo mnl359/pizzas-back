@@ -128,12 +128,12 @@ workflows:
       - init:
          requires:
             - build
-      #- plan:
-      #    requires:
-      #      - init
-      #- apply:
-      #    requires:
-      #      - plan
+      - plan:
+          requires:
+            - init
+      - apply:
+          requires:
+            - plan
       #- deploy:
       #    requires:
       #      - apply
