@@ -55,12 +55,13 @@ jobs:
           at: ~/pizza-aplication
       - setup_remote_docker
       - docker/check
+      - run: ls -la
       - docker/build:
           image: mcarras1/pizza-backend
-          tag: latest
+          tag: "latest"
       - docker/push:
           image: mcarras1/pizza-backend
-          tag: latest
+          tag: "latest"
   init:
     <<: *terraform
     steps:
