@@ -67,7 +67,6 @@ jobs:
       - persist_to_workspace:
           root: ~/project
           paths: .
-
   plan:
     <<: *terraform
     steps:
@@ -84,7 +83,6 @@ jobs:
       - persist_to_workspace:
           root: ~/project
           paths: .
-
   apply:
     <<: *terraform
     steps:
@@ -94,7 +92,6 @@ jobs:
           name: apply
           command: |
             cd terraform
-            echo $MYSQL_DB_USER
             terraform apply -auto-approve
       - run:
           name: show
@@ -104,7 +101,6 @@ jobs:
       - persist_to_workspace:
           root: ~/project
           paths: .
-
   deploy:
     executor: aws-cli/default
     steps:
@@ -116,7 +112,6 @@ jobs:
       - run:
           name: Deploy to aws
           command: aws s3 sync . s3://mybucket
-
   destroy:
     <<: *terraform
     steps:
