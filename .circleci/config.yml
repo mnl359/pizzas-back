@@ -104,14 +104,11 @@ jobs:
   deploy:
     executor: aws-cli/default
     steps:
-      - attach_workspace:
-          at: ~/pizza-aplication
       - aws-cli/install
-      - aws-cli/setup:
-            profile-name: personal
+      - aws-cli/setup
       - run:
-          name: Deploy to aws
-          command: aws s3 sync . s3://mybucket
+          name: Launch a new version of ECS Service
+          command: aws ecs update-service --cluster backend-pizza --service backend-pizza --force-new-deployment
   destroy:
     <<: *terraform
     steps:
@@ -125,20 +122,12 @@ jobs:
 
 workflows:
   version: 2
-  build_front:
+  build_back:
     jobs:
-      - compile:
-          filters:
-            branches:
-              only:
-                - master
+      - compile
       - build:
           requires:
             - compile
-          filters:
-            branches:
-              only:
-                - master
       - init:
          requires:
             - build
@@ -152,9 +141,13 @@ workflows:
             branches:
               only:
                 - master
-      #- deploy:
-      #    requires:
-      #      - apply
+      - deploy:
+          requires:
+            - apply
+          filters:
+            branches:
+              only:
+                - master
       - destroy:
           requires:
             - plan
