@@ -94,6 +94,7 @@ jobs:
           name: apply
           command: |
             cd terraform
+            echo $MYSQL_DB_USER
             terraform apply -auto-approve
       - run:
           name: show
@@ -120,7 +121,7 @@ jobs:
     <<: *terraform
     steps:
       - attach_workspace:
-          at: ~/pizza-aplication
+          at: ~/project
       - run:
           name: destroy app
           command: terraform destroy -auto-approve
@@ -145,10 +146,10 @@ workflows:
       #- deploy:
       #    requires:
       #      - apply
-      #- destroy:
-      #    requires:
-      #      - plan
-      #    filters:
-      #      branches:
-      #        only:
-      #          - destroy
+      - destroy:
+          requires:
+            - plan
+          filters:
+            branches:
+              only:
+                - destroy
