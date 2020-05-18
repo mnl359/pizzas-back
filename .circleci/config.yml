@@ -62,7 +62,6 @@ jobs:
       - run:
           name: init
           command: |
-            ls -la 
             cd terraform
             terraform init
       - persist_to_workspace:
@@ -76,7 +75,9 @@ jobs:
           at: ~/project
       - run:
           name: plan
-          command: terraform plan
+          command: |
+            cd terraform
+            terraform plan
       - store_artifacts:
           path: ~/project/terraform/tfplan
           destination: tfplan
@@ -91,10 +92,14 @@ jobs:
           at: ~/project
       - run:
           name: apply
-          command: terraform apply -auto-approve
+          command: |
+            cd terraform
+            terraform apply -auto-approve
       - run:
           name: show
-          command: terraform show -no-color > tfresult
+          command: |
+            cd terraform
+            terraform show -no-color > tfresult
       - persist_to_workspace:
           root: ~/project
           paths: .
