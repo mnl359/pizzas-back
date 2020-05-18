@@ -108,7 +108,9 @@ jobs:
       - aws-cli/setup
       - run:
           name: Launch a new version of ECS Service
-          command: aws ecs update-service --cluster backend-pizza --service backend-pizza --force-new-deployment >> output.txt
+          command: |
+            aws ecs update-service --cluster backend-pizza --service backend-pizza --force-new-deployment >> output.txt
+            cat output.txt
   destroy:
     <<: *terraform
     steps:

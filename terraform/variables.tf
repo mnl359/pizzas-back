@@ -83,6 +83,7 @@ variable "asg_desired" {
   default     = "2"
 }
 
+# Instances configuration
 variable "ec2_amiid" {
   description = "The EC2 image ID to launch"
   type        = string
@@ -98,7 +99,7 @@ variable "ec2_type" {
 variable "docker-image" {
   description = "Docker image for instances"
   type        = string
-  default     = "mcarras1/pizza-backend:1.0"
+  default     = "mcarras1/pizza-backend:latest"
 }
 
 # ECS service
