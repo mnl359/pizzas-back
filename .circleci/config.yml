@@ -52,7 +52,7 @@ jobs:
     working_directory: ~/pizza-application
     steps:
       - attach_workspace:
-        at: ~/pizza-aplication
+          at: ~/pizza-aplication
       - setup_remote_docker
       - docker/check
       - docker/build:
