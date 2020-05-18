@@ -61,7 +61,10 @@ jobs:
       - checkout
       - run:
           name: init
-          command: terraform init
+          command: |
+            ls -la 
+            cd terraform
+            terraform init
       - persist_to_workspace:
           root: ~/project
           paths: .
