@@ -15,8 +15,8 @@ resource "aws_db_instance" "pizzappdb" {
   port                   = var.db_port
   skip_final_snapshot    = true
   
-  username               = "admin"
-  password               = "passw0rd"
+  username               = var.db_user
+  password               = var.db_password
   tags                   = var.tags
 
   enabled_cloudwatch_logs_exports = ["audit", "error", "general", "slowquery"]

@@ -1,11 +1,11 @@
 variable "profile" {
   description = "Profile for Terraform"
   type        = string
-  default     = "personal"
+  default     = "default"
 }
 
 variable "aws_region" {
-  description = "Principal region: North Virginia"
+  description = "Principal region: Ohio"
   type        = string
   default     = "us-east-2"
 }
@@ -109,6 +109,15 @@ variable "ecs-service-name" {
 }
 
 ## Database variables
+
+variable "db_user" {
+  description = "User for the database"
+}
+
+variable "db_password" {
+  description = "Password for database user"
+}
+
 variable "database_name" {
   description = "Database used by Pizza Application"
   type        = string
