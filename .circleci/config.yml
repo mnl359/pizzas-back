@@ -19,7 +19,7 @@ terraform: &terraform
     TF_MYSQL_DB_PASSWORD: $MYSQL_DB_PASSWORD
 
 jobs:
-  build:
+  compile:
     docker:
       - image: maven:3.6.3-jdk-11
         environment:
@@ -39,11 +39,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Waiting for MySQL container to be ready
-          command: |
-            echo Waiting for MySQL
-            #sleep 10
-      - run:
           name: Compile
           command: mvn compile
       - run:
@@ -52,9 +47,23 @@ jobs:
       - persist_to_workspace:
           root: ~/pizza-aplication
           paths: .
+  build:
+    executor: docker/docker
+    working_directory: ~/pizza-application
+    steps:
+      - attach_workspace:
+        at: ~/pizza-aplication
+      - docker/check
+      - docker/build:
+          image: mcarras1/pizza-backend
+          tag: latest
+      - docker/push:
+          image: mcarras1/pizza-backend
+          tag: latest
   init:
     <<: *terraform
     steps:
+      - checkout
       - run:
           name: init
           command: terraform init
@@ -117,7 +126,10 @@ workflows:
   version: 2
   build_front:
     jobs:
-      - build
+      - compile
+      - build:
+          requires:
+            - compile
       #- init:
       #   requires:
       #      - build
