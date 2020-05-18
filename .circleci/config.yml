@@ -49,12 +49,11 @@ jobs:
           paths: .
   build:
     executor: docker/docker
-    working_directory: ~/pizza-application
     steps:
-      - setup_remote_docker
-      - docker/check
       - attach_workspace:
           at: ~/pizza-aplication
+      - setup_remote_docker
+      - docker/check
       - run: ls -la
       - docker/build:
           image: mcarras1/pizza-backend
