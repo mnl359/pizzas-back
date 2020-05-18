@@ -124,7 +124,9 @@ jobs:
           at: ~/project
       - run:
           name: destroy app
-          command: terraform destroy -auto-approve
+          command: |
+            cd terraform
+            terraform destroy -auto-approve
 
 workflows:
   version: 2
