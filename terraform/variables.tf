@@ -5,7 +5,7 @@ variable "profile" {
 }
 
 variable "aws_region" {
-  description = "Principal region: Ohio"
+  description = "Region: Ohio"
   type        = string
   default     = "us-east-2"
 }
