@@ -1,4 +1,4 @@
-# RampUp 2020: Pizza application
+# Final proyect: Pizza application
 
 [![RampUp](https://circleci.com/gh/mnl359/pizzas-back/tree/master.svg?style=shield
 )](https://app.circleci.com/pipelines/github/mnl359/pizzas-back)
