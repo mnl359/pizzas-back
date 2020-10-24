@@ -6,7 +6,7 @@ orbs:
 terraform: &terraform
   working_directory: ~/project/terraform
   docker:
-    - image: hashicorp/terraform:0.12.24
+    - image: hashicorp/terraform:light
   environment:
     TF_IN_AUTOMATION: true
     TF_VAR_AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
